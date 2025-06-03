@@ -12,4 +12,4 @@ export function getUserIdFromRequest(request) {
         console.error('JWT error:', err.message);
         throw new Error('Unauthorized: Invalid token');
     }
-}
+};
