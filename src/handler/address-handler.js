@@ -1,3 +1,4 @@
+import axios from "axios";
 import { supabase } from "../config.js";
 import { nanoid } from "nanoid";
 import { getUserIdFromRequest } from "../utils/auth.js";
@@ -86,5 +87,45 @@ export const putAddress = async (request, h) => {
         return h.response({ message: 'Address berhasil di update' }).code(200);
     } catch (error) {
         return h.response({ error: error.message }).code(400);
+    }
+};
+
+export const getNearbyDoctorsHandler = async (request, h) => {
+    try {
+        const user_id = getUserIdFromRequest(request);
+
+        const { data: address, error } = await supabase
+            .from('address')
+            .select('latitude, longitude')
+            .eq('user_id', user_id)
+            .single();
+
+        if (error || !address) {
+            return h.response({ error: "Alamat user tidak ditemukan" }).code(404);
+        }
+
+        const { latitude, longitude } = address;
+        const query = `
+            [out:json];
+            (
+                node["amenity"="doctors"](around:5000,${latitude},${longitude});
+                node["healthcare"="midwife"](around:5000,${latitude},${longitude});
+            );
+            out center;
+        `;
+        const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+        const response = await axios.get(url);
+
+        const results = (response.data.elements || []).map(el => ({
+            name: el.tags.name || "Dokter/Bidan",
+            type: el.tags.amenity === "doctors" ? "Dokter" : "Bidan",
+            latitude: el.lat,
+            longitude: el.lon,
+            address: el.tags["addr:full"] || el.tags["addr:street"] || ""
+        }));
+
+        return h.response(results).code(200);
+    } catch (error) {
+        return h.response({ error: error.message }).code(500);
     }
 };

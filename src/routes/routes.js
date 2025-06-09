@@ -1,5 +1,5 @@
 import { rootHandler } from "../handler/root-handler.js";
-import { addAddress, getAddress, putAddress } from "../handler/address-handler.js";
+import { addAddress, getAddress, getNearbyDoctorsHandler, putAddress } from "../handler/address-handler.js";
 import { registerHandler, loginHandler, logoutHandler } from "../handler/auth-handler.js";
 import { addPredictionHandler, getPredictionHandler, getPredictionDetailHandler, deletePredictionHandler } from "../handler/prediction-handler.js";
 import { addProfileHandler, getProfileHandler, putProfileHandler } from "../handler/profile-handler.js";
@@ -84,6 +84,13 @@ const routes = [
         method: "PUT",
         path: "/address",
         handler: putAddress
+    },
+
+    //====================== NearBy
+    {
+        method: "GET",
+        path: "/nearby-doctor",
+        handler: getNearbyDoctorsHandler
     },
 ]
 

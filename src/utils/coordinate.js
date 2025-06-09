@@ -9,4 +9,4 @@ export async function getCoordinates(address) {
         return { latitude: parseFloat(data[0].lat), longitude: parseFloat(data[0].lon) };
     }
     return { latitude: null, longitude: null };
-}
+};
