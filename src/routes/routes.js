@@ -3,6 +3,7 @@ import { addAddress, getAddress, getNearbyDoctorsHandler, putAddress } from "../
 import { registerHandler, loginHandler, logoutHandler } from "../handler/auth-handler.js";
 import { addPredictionHandler, getPredictionHandler, getPredictionDetailHandler, deletePredictionHandler } from "../handler/prediction-handler.js";
 import { addProfileHandler, getProfileHandler, putProfileHandler } from "../handler/profile-handler.js";
+import { getAllBidanHandler } from "../handler/bidan-handler.js";
 
 const routes = [
     {
@@ -86,11 +87,16 @@ const routes = [
         handler: putAddress
     },
 
-    //====================== NearBy
+    //====================== bidan/doctor
     {
         method: "GET",
         path: "/nearby-doctor",
         handler: getNearbyDoctorsHandler
+    },
+    {
+        method: "GET",
+        path: "/bidan",
+        handler: getAllBidanHandler
     },
 ]
 
