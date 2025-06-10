@@ -4,6 +4,8 @@ import { registerHandler, loginHandler, logoutHandler } from "../handler/auth-ha
 import { addPredictionHandler, getPredictionHandler, getPredictionDetailHandler, deletePredictionHandler } from "../handler/prediction-handler.js";
 import { addProfileHandler, getProfileHandler, putProfileHandler } from "../handler/profile-handler.js";
 import { getAllBidanHandler } from "../handler/bidan-handler.js";
+import { getArticlesHandler } from "../handler/article-handler.js";
+
 
 const routes = [
     {
@@ -97,6 +99,13 @@ const routes = [
         method: "GET",
         path: "/bidan",
         handler: getAllBidanHandler
+    },
+
+    //============================ artikel
+    {
+        method: "GET",
+        path: "/articles",
+        handler: getArticlesHandler
     },
 ]
 
